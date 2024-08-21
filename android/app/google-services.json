@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "187808964728",
+    "project_id": "todoauth-7fb70",
+    "storage_bucket": "todoauth-7fb70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187808964728:android:c4592535c935240d6ecd8d",
+        "android_client_info": {
+          "package_name": "rishijain.in"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_AS4oS6tEekdSBovDlpd2-tApZuK009s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
