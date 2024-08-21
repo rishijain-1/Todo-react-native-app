@@ -9,25 +9,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String   @id @default(auto()) @map("_id") @test
+  id            String   @id @default(cuid()) @map("_id")
   name          String
   email         String   @unique
   hashPassword  String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  notes         Note[]   @relation("UserNotes")
 }
 
 model Note {
-  id        String   @id @default(auto()) @map("_id")
+  id        String   @id @default(cuid()) @map("_id")
   title     String
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("UserNotes", fields: [userId], references: [id]) 
 }

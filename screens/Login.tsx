@@ -1,44 +1,34 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '../contexts/AuthContext';
 import  api  from '../services/api';
-import { RootStackParamList } from '../types/navigation';// Update this import path
 
-type RegisterScreenProps = NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>;
 
-const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
-    const [name, setName] = useState('');
+const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const authContext = useContext(AuthContext);
 
-    const handleRegister = async () => {
+    const handleLogin = async () => {
         try {
-            const response = await api.post('api/users/register', {
-                name,
+            const response = await api.post('/users/login', {
                 email,
-                password
+                password,
             });
 
-            if (response.status === 201 && authContext) {
+            // Save token and authenticate user
+            if (response.status === 200 && authContext) {
                 authContext.signIn(response.data.token);
                 navigation.navigate('HomeScreen');
             }
         } catch (error) {
-            console.error('Registration failed:', error);
+            console.error('Login failed:', error);
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Register</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Name"
-                value={name}
-                onChangeText={setName}
-            />
+            <Text style={styles.title}>Login</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -53,10 +43,10 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Register" onPress={handleRegister} />
-            <View style={styles.linkContainer}>
+            <Button title="Login" onPress={handleLogin} />
+            <View style={styles.container}>
                 <Text style={styles.text}>Already have an account? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                     <Text style={styles.link}>Login here</Text>
                 </TouchableOpacity>
             </View>
@@ -82,11 +72,6 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         paddingHorizontal: 8,
     },
-    linkContainer: {
-        flexDirection: 'row',
-        marginTop: 16,
-        justifyContent: 'center',
-    },
     text: {
         fontSize: 16,
     },
@@ -96,4 +81,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterScreen;
+export default LoginScreen;
